@@ -5,15 +5,60 @@ namespace HomeInventory.Endpoints;
 
 public static class InventoryHandlers
 {
-    public static async Task<IEnumerable<Inventory>> GetInventories(HomeInventoryDbContext db)
+    public static GetInventoryModel MapInventoryToInventoryModel(Inventory inventory)
     {
-        return await db.Inventories.ToListAsync();
+        GetInventoryModel getInventoryModel;
+        var possibleValue = inventory.PossibleValue;
+           
+        var isPossibleValueNull = possibleValue == null;
+            
+        if (!isPossibleValueNull && possibleValue is MonetaryValue monetaryValue )
+        { 
+            getInventoryModel = new GetInventoryModel(Inventory:inventory,MonetaryValue:monetaryValue, OtherValue:null);
+        }
+        else if (!isPossibleValueNull && possibleValue is OtherValue otherValue)
+        {
+            getInventoryModel=new GetInventoryModel(Inventory:inventory,OtherValue:otherValue, MonetaryValue:null);
+        }
+        else
+        {
+            getInventoryModel= new GetInventoryModel(Inventory:inventory,MonetaryValue:null,OtherValue:null);
+
+        }
+
+        return getInventoryModel;
+    }
+    public static async Task<IEnumerable<GetInventoryModel>> GetInventories(HomeInventoryDbContext db)
+    {
+        var inventories = await db.Inventories
+            .Include(i=>i.PossibleValue)
+            .ToListAsync();
+        
+        List<GetInventoryModel> getInventoryModels = new();
+
+        foreach (var inventory in inventories)
+        {
+            var getInventoryModel = MapInventoryToInventoryModel(inventory);
+            
+            getInventoryModels.Add(getInventoryModel);
+        }
+        
+        return getInventoryModels;
+        
     }
 
     public static async Task<IResult> GetInventoryById(HomeInventoryDbContext db, int id)
     { 
         var inventory = await db.Inventories.FindAsync(id);
-        return inventory is not null ? Results.Ok(inventory) : Results.NotFound();
+
+        if (inventory == null)
+        {
+            return Results.NotFound();
+        }
+
+        var getInventoryModel = MapInventoryToInventoryModel(inventory);
+        
+        return Results.Ok(getInventoryModel);
     }
     
    public static  async Task<IResult>  AddInventoryWithAddressAndMonetaryValue(HomeInventoryDbContext db, InventoryWithAddressWithMonetoryValueDto inventoryWithAddressDto)
@@ -181,3 +226,5 @@ public record InventoryWithCoordinatesWithOtherValueDto(
     double Y,
     OtherValueDto OtherValueDto
 ) : InventoryDto(Name, Description);
+
+public record GetInventoryModel(Inventory Inventory,MonetaryValue? MonetaryValue, OtherValue? OtherValue);
