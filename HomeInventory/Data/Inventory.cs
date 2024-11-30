@@ -11,5 +11,5 @@ public class Inventory
     public  string? Description { get; set; }
     
     public Location? Location { get; set; }
-    public double Possible { get; set; }
+    public PossibleValue? PossibleValue { get; set; }
 }

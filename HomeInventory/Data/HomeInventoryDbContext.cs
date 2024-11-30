@@ -12,6 +12,12 @@ public class HomeInventoryDbContext: DbContext
             .HasDiscriminator<string>("LocationType")
             .HasValue<AdressLocation>("Address")
             .HasValue<CoordinateLocation>("Coordinate");
+
+        modelBuilder.Entity<PossibleValue>()
+            .HasDiscriminator<string>("PossibleValueType")
+            .HasValue<MonetaryValue>("Monetary")
+            .HasValue<OtherValue>("other");
+
     }
 
     public DbSet<Inventory> Inventories { get; set; }

@@ -30,10 +30,12 @@ app.MapGet("/inventory/{id}", InventoryHandlers.GetInventoryById);
 
 
 
-app.MapPost("/inventorywithaddress",InventoryHandlers.AddInventoryWithAddress);
+app.MapPost("/inventorywithaddressWithMonetaryValue",InventoryHandlers.AddInventoryWithAddressAndMonetaryValue);
+app.MapPost("/inventorywithaddressWithOtherValue",InventoryHandlers.AddInventoryWithAddressAndOtherValue);
    
 
-app.MapPost("/inventoryWithCoordinates",InventoryHandlers.AddInventoryWithCoordinates);
+app.MapPost("/inventoryWithCoordinatesWithMonetaryValue",InventoryHandlers.AddInventoryWithCoordinatesAndMonetaryValue);
+app.MapPost("/inventoryWithCoordinatesWithOtherValue",InventoryHandlers.AddInventoryWithCoordinatesAndOtherValue);
 
 
 // UPDATE: Envanter öğesini güncelleme
