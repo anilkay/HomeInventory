@@ -21,5 +21,6 @@ public class HomeInventoryDbContext: DbContext
     }
 
     public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<Owner> Owners { get; set; }
     
 }

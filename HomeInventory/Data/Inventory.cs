@@ -12,4 +12,8 @@ public class Inventory
     
     public Location? Location { get; set; }
     public PossibleValue? PossibleValue { get; set; }
+    
+    public int? OwnerId { get;  set; }
+    public Owner? Owner { get;  set; }
+    
 }

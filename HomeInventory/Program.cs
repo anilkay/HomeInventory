@@ -37,6 +37,10 @@ app.MapPost("/inventorywithaddressWithOtherValue",InventoryHandlers.AddInventory
 app.MapPost("/inventoryWithCoordinatesWithMonetaryValue",InventoryHandlers.AddInventoryWithCoordinatesAndMonetaryValue);
 app.MapPost("/inventoryWithCoordinatesWithOtherValue",InventoryHandlers.AddInventoryWithCoordinatesAndOtherValue);
 
+app.MapPut("/inventoryAddOwner", InventoryHandlers.AddOwnerToInventory);
+
+app.MapGet("/Owner/{id}", OwnerHandlers.GetOwnerWithId);
+app.MapPost("/owner",OwnerHandlers.AddOwner);
 
 // UPDATE: Envanter öğesini güncelleme
 app.MapPut("/inventory/{id}", InventoryHandlers.UpdateInventory);

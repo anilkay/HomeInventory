@@ -197,6 +197,21 @@ public static class InventoryHandlers
         await db.SaveChangesAsync();
         return Results.NoContent();
     }
+
+    public static async Task<IResult> AddOwnerToInventory(HomeInventoryDbContext db,
+        AddOwnerToInventoryRequest addOwnerToInventoryRequest)
+    {
+        var inventory =await  db.Inventories.FindAsync(addOwnerToInventoryRequest.InventoryId);
+        if(inventory is null) return Results.BadRequest("Inventory not found");
+        
+        var owner = await db.Owners.FindAsync(addOwnerToInventoryRequest.OwnerId);
+        if(owner is null) return Results.BadRequest("Owner not found");
+        
+        inventory.Owner = owner;
+        await db.SaveChangesAsync();
+        return Results.NoContent();
+    }
+    
 }
 public record InventoryDto(string Name, string Description);
 public record MonetaryValueDto(Decimal Value, string Currency);
@@ -228,3 +243,5 @@ public record InventoryWithCoordinatesWithOtherValueDto(
 ) : InventoryDto(Name, Description);
 
 public record GetInventoryModel(Inventory Inventory,MonetaryValue? MonetaryValue, OtherValue? OtherValue);
+
+public record AddOwnerToInventoryRequest(int InventoryId,int OwnerId);
