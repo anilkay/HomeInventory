@@ -1,5 +1,10 @@
+using System.Collections.Immutable;
 using HomeInventory.Data;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace HomeInventory.Configuration;
 
@@ -9,6 +14,33 @@ public static  class AppConfiguration
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+
+        services.AddOpenTelemetry()
+            .ConfigureResource(resource => resource.AddService("HomeInventory"))
+            .WithTracing(tracing =>
+            {
+                tracing
+                    .SetSampler(new AlwaysOnSampler())
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri("http://localhost:4317"); // gRPC için
+                        otlpOptions.Protocol = OtlpExportProtocol.Grpc; // Protokolü belirtiyoruz
+                    });
+
+
+            })
+            .WithMetrics(metrics =>
+            {
+                metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddMeter("Microsoft.AspNetCore.Hosting")
+                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel");
+                //.AddConsoleExporter();
+            });
+           
 
         services.AddDbContext<HomeInventoryDbContext>(
             
