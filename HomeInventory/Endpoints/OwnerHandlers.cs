@@ -23,8 +23,13 @@ public static  class OwnerHandlers
     public static async Task<IResult> GetOwnerWithId(HomeInventoryDbContext db, int id)
     {
         var owner = await db.Owners
-            .Include(o => o.Inventories)
+            .Include(o => o.Inventories).ThenInclude(inventory => inventory.Location)
             .FirstOrDefaultAsync(o => o.Id == id);
+
+        if (owner is null)
+        {
+            return Results.NotFound("Owner Not Found");
+        }
 
         List<InventoryDtoWithoutOwner> inventoriesWithoutOwner = new();
         
@@ -33,7 +38,7 @@ public static  class OwnerHandlers
             InventoryDtoWithoutOwner inventoryDtoWithoutOwner = new (
                 Id:inventory.Id,
                 Name:inventory.Name,
-                Description:inventory.Description,
+                Description:inventory.Description ,
                 Location:inventory.Location
                 );
             inventoriesWithoutOwner.Add(inventoryDtoWithoutOwner);
@@ -52,7 +57,7 @@ public record AddOwnerRequest(string FirstName,
     string? Email);
 
 public record GetOwnerObject(string Name, 
-    string Surname, 
-    string Email, IEnumerable<InventoryDtoWithoutOwner> Inventories);
+    string? Surname, 
+    string? Email, IEnumerable<InventoryDtoWithoutOwner> Inventories);
 
-public record InventoryDtoWithoutOwner(int Id, string Name, string Description, Location Location);
+public record InventoryDtoWithoutOwner(int Id, string Name, string? Description, Location? Location);
