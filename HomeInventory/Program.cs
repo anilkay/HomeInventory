@@ -22,13 +22,12 @@ if (app.Environment.IsDevelopment() || true)
 
 app.UseHttpsRedirection();
 
-
+#region MapEndpoints
 app.MapInventoryRoutes();
 app.MapOwnerRoutes();
+app.MapHealthRoutes();
+#endregion
 
-
-
-app.MapGet("/health", HealthHandlers.Health);
 
 
 app.Run();
