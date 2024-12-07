@@ -23,36 +23,12 @@ if (app.Environment.IsDevelopment() || true)
 app.UseHttpsRedirection();
 
 
-app.MapGet("/inventory", InventoryHandlers.GetInventories);
-
-// READ: Belirli bir envanter öğesini ID'ye göre getirme
-app.MapGet("/inventory/{id}", InventoryHandlers.GetInventoryById);
+app.MapInventoryRoutes();
+app.MapOwnerRoutes();
 
 
 
-app.MapPost("/inventorywithaddressWithMonetaryValue",InventoryHandlers.AddInventoryWithAddressAndMonetaryValue);
-app.MapPost("/inventorywithaddressWithOtherValue",InventoryHandlers.AddInventoryWithAddressAndOtherValue);
-   
-
-app.MapPost("/inventoryWithCoordinatesWithMonetaryValue",InventoryHandlers.AddInventoryWithCoordinatesAndMonetaryValue);
-app.MapPost("/inventoryWithCoordinatesWithOtherValue",InventoryHandlers.AddInventoryWithCoordinatesAndOtherValue);
-
-app.MapPut("/inventoryAddOwner", InventoryHandlers.AddOwnerToInventory);
-
-app.MapGet("/Owner/{id}", OwnerHandlers.GetOwnerWithId);
-app.MapPost("/owner",OwnerHandlers.AddOwner);
-
-// UPDATE: Envanter öğesini güncelleme
-app.MapPut("/inventory/{id}", InventoryHandlers.UpdateInventory);
-
-// DELETE: Envanter öğesini silme
-app.MapDelete("/inventory/{id}",InventoryHandlers.DeleteInventory);
-
-app.MapGet("/health", async (HomeInventoryDbContext db) =>
-{
-   await  db.Inventories.ToListAsync();
-   return Results.Ok();
-} );
+app.MapGet("/health", HealthHandlers.Health);
 
 
 app.Run();
