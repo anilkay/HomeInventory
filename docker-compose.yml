@@ -1,0 +1,21 @@
+﻿services:
+  homeinventory:
+    image: homeinventory
+    ports:
+      - 8181:8080
+    build:
+      context: .
+      dockerfile: HomeInventory/Dockerfile
+  homeinvdb:
+    image: postgres:13               
+    environment:
+      - POSTGRES_USER=sqladmin
+      - POSTGRES_PASSWORD=Passw0rd!123
+      - POSTGRES_DB=homeinventorydb
+    ports:
+      - "5433:5432"                   
+    volumes:
+      - db-data:/var/lib/postgresql/data    
+volumes:
+  db-data:
+    driver: local

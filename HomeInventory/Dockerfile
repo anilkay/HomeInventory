@@ -20,4 +20,16 @@ RUN dotnet publish "HomeInventory.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+USER app
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+  CMD curl -f http://localhost:8080/Health || exit 1
+  
 ENTRYPOINT ["dotnet", "HomeInventory.dll"]
