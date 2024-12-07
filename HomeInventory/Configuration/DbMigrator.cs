@@ -12,7 +12,7 @@ public static class DbMigrator
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<HomeInventoryDbContext>();
-                dbContext.Database.Migrate(); // Migration'ları otomatik olarak uygular
+                dbContext.Database.Migrate(); // Automatically Migrate
             }
         }
     }

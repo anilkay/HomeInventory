@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using HomeInventory.Data;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Exporter;
@@ -26,8 +25,8 @@ public static  class AppConfiguration
                     .AddHttpClientInstrumentation()
                     .AddOtlpExporter(otlpOptions =>
                     {
-                        otlpOptions.Endpoint = new Uri("http://localhost:4317"); // gRPC için
-                        otlpOptions.Protocol = OtlpExportProtocol.Grpc; // Protokolü belirtiyoruz
+                        otlpOptions.Endpoint = new Uri("http://localhost:4317"); // gRPC
+                        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
                     });
 
 

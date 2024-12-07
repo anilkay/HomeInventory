@@ -1,8 +1,4 @@
 using HomeInventory.Configuration;
-using HomeInventory.Data;
-using HomeInventory.Endpoints;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
