@@ -1,8 +1,9 @@
 ﻿services:
   homeinventory:
+    container_name: homeinventory
     image: homeinventory
     ports:
-      - 8181:8080
+      - 5066:8080
     build:
       context: .
       dockerfile: HomeInventory/Dockerfile
@@ -15,7 +16,20 @@
     ports:
       - "5433:5432"                   
     volumes:
-      - db-data:/var/lib/postgresql/data    
+      - db-data:/var/lib/postgresql/data 
+  homeinvapigateway:
+    image: homeinvapigateway
+    environment:
+      - DownstreamHost=homeinventory
+    ports:
+      - 5298:8080
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+  testbox:
+    image: ubuntu
+    container_name: testbox
+    command: sleep 3600    
 volumes:
   db-data:
     driver: local

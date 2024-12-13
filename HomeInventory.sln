@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{66C7AE0C-711C-40DB-AA4B-54FE175B617C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +19,9 @@ Global
 		{70AF2F21-D060-46DA-A2C0-EE567016A7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70AF2F21-D060-46DA-A2C0-EE567016A7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70AF2F21-D060-46DA-A2C0-EE567016A7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66C7AE0C-711C-40DB-AA4B-54FE175B617C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66C7AE0C-711C-40DB-AA4B-54FE175B617C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66C7AE0C-711C-40DB-AA4B-54FE175B617C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66C7AE0C-711C-40DB-AA4B-54FE175B617C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
