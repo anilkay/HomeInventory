@@ -1,0 +1,79 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/Inventory",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5066
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Inventory",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Inventory/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5066
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Inventory/{id}",
+      "UpstreamHttpMethod": [ "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Inventory/WithAddressWithMonetaryValue",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5066
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Inventory/WithAddressWithMonetaryValue",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Inventory/WithAddressWithOtherValue",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5066
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Inventory/WithAddressWithOtherValue",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Inventory/WithCoordinatesWithMonetaryValue",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5066
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Inventory/WithCoordinatesWithMonetaryValue",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Inventory/WithCoordinatesWithOtherValue",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5066
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Inventory/WithCoordinatesWithOtherValue",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5298"
+  }
+}

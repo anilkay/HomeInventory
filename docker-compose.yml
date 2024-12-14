@@ -20,7 +20,7 @@
   homeinvapigateway:
     image: homeinvapigateway
     environment:
-      - DownstreamHost=homeinventory
+      - ADDITIONAL_INFO=Compose
     ports:
       - 5298:8080
     build:
