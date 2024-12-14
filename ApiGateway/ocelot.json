@@ -71,6 +71,30 @@
       ],
       "UpstreamPathTemplate": "/HomeInventory/Inventory/WithCoordinatesWithOtherValue",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Owner/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "homeinventory",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Owner/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Owner",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "homeinventory",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/HomeInventory/Owner",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ],
   "GlobalConfiguration": {
