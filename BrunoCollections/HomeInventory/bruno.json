@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "HomeInventory",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

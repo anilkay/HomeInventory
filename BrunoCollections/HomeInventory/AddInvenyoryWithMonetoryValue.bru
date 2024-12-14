@@ -1,0 +1,20 @@
+meta {
+  name: AddInvenyoryWithMonetoryValue
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:5298/HomeInventory/Inventory/WithAddressWithMonetaryValue
+  body: json
+  auth: none
+}
+
+headers {
+  accept: */*
+  Content-Type: application/json
+}
+
+body:json {
+  { "name": "esya2", "description": "Açıklama2", "locationName": "Ev2", "address": "Ev Adresi2", "monetaryValueDto": { "value": 15, "currency": "Try" } }
+}
