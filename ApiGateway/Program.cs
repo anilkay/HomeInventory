@@ -5,6 +5,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 var additionalEnvironmentInformation = Environment.GetEnvironmentVariable("ADDITIONAL_INFO");
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowedOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 {
     config
@@ -20,6 +30,8 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 builder.Services.AddOcelot();
 
 var app = builder.Build();
+
+app.UseCors("AllowedOrigins");
 
 await app.UseOcelot();
 
