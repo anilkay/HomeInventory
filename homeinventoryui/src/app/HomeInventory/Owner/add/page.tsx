@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function AddOwnerPage() {
@@ -38,8 +38,15 @@ export default function AddOwnerPage() {
             }
 
             router.push('/HomeInventory/Owner');
-        } catch (error: any) {
-            setError(error.message);
+        } catch (error: unknown) {
+
+            if(error instanceof Error) {
+                setError(error.message);
+            }
+            else {
+                setError("Unknown Error")
+            }
+
         } finally {
             setLoading(false);
         }
@@ -57,7 +64,7 @@ export default function AddOwnerPage() {
                         value={formData.firstName}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="mt-1 p-2 w-full border border-gray-300 rounded text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                 </div>
                 <div>
@@ -68,7 +75,7 @@ export default function AddOwnerPage() {
                         value={formData.lastName}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="mt-1 p-2 w-full border border-gray-300 rounded text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                 </div>
                 <div>
@@ -79,7 +86,7 @@ export default function AddOwnerPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="mt-1 p-2 w-full border border-gray-300 rounded text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                 </div>
                 {error && <div className="text-red-600">{error}</div>}

@@ -5,8 +5,18 @@ namespace HomeInventory.Endpoints;
 
 public static  class OwnerHandlers
 {
+    private static async  Task<bool> IsEmailUnique(HomeInventoryDbContext db, string email)
+    {
+        return !await db.Owners.AnyAsync(owner=>owner.Email == email);
+    }
     public  static async Task<IResult> AddOwner(HomeInventoryDbContext db,AddOwnerRequest request)
     {
+
+        if (!await IsEmailUnique(db, request.Email))
+        {
+            return Results.BadRequest("");
+        }
+        
         Owner owner = new Owner()
         {
             Name = request.FirstName, 
@@ -19,6 +29,8 @@ public static  class OwnerHandlers
 
         return Results.Created();
     }
+
+  
 
     public static async Task<IResult> GetOwnerWithId(HomeInventoryDbContext db, int id)
     {
