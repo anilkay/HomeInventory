@@ -33,6 +33,7 @@ public static  class RouteExtensions
         
         ownerGroup.MapGet("/{id}", OwnerHandlers.GetOwnerWithId);
         ownerGroup.MapPost("/",OwnerHandlers.AddOwner);
+        ownerGroup.MapGet("/", OwnerHandlers.GetOwners);
         
         return app;
     }

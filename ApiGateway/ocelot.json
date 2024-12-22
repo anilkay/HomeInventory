@@ -94,7 +94,7 @@
         }
       ],
       "UpstreamPathTemplate": "/HomeInventory/Owner",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST","GET" ]
     }
   ],
   "GlobalConfiguration": {

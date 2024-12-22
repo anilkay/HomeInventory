@@ -50,6 +50,11 @@ public static  class OwnerHandlers
         
         return Results.Ok(getOwnerObject);
     }
+
+    public static async Task<IResult> GetOwners(HomeInventoryDbContext db)
+    {
+       return  Results.Ok(await db.Owners.ToListAsync());
+    }
     
 }
 public record AddOwnerRequest(string FirstName, 
