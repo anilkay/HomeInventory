@@ -4,6 +4,7 @@ import React from 'react';
 import {useFetch} from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import {ColumnDef, createColumnHelper, flexRender, getCoreRowModel, useReactTable} from '@tanstack/react-table';
+import {useTansactReactTable} from "@/hooks/useTansactReactTable";
 
 interface Inventory {
     id: number;
@@ -84,13 +85,7 @@ export default  function HomeInventoryPage() {
         }) as ColumnDef<InventoryResponse>,
     ];
 
-    const table = useReactTable({
-        data:data || [],
-        columns:columns,
-        getCoreRowModel: getCoreRowModel(),
-    })
-
-    console.log(table.getRowModel())
+    const reactTable=useTansactReactTable(columns,data ??[])
 
 
 
@@ -124,37 +119,9 @@ export default  function HomeInventoryPage() {
                     Add New Inventory
                 </button>
             </div>
-            <table className="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                            <th
-                                key={header.id}
-                                className="border-b border-gray-300 p-2 text-left"
-                            >
-                                {header.isPlaceholder
-                                    ? null
-
-
-                                    : header.column.id}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-                </thead>
-                <tbody>
-                {table.getRowModel().rows.map(row => (
-                    <tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td key={cell.id}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            {
+                reactTable
+            }
         </div>
     );
 }
