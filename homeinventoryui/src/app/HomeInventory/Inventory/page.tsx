@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useFetch} from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import {ColumnDef, createColumnHelper, flexRender, getCoreRowModel, useReactTable} from '@tanstack/react-table';
@@ -34,6 +34,13 @@ interface InventoryResponse {
 export default  function HomeInventoryPage() {
     const { data, loading, error, refetch } = useFetch<InventoryResponse[]>(`/HomeInventory/Inventory`);
     const router = useRouter();
+
+    const inventories = useMemo(() => {
+        if(!data){
+            return [];
+        }
+        return data
+    },[data])
 
     const handleViewDetails = (id: number) => {
         if(router!==null){
@@ -85,7 +92,7 @@ export default  function HomeInventoryPage() {
         }) as ColumnDef<InventoryResponse>,
     ];
 
-    const reactTable=useTansactReactTable(columns,data ??[])
+    const reactTable=useTansactReactTable(columns, inventories)
 
 
 

@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useFetch} from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import {ColumnDef, createColumnHelper} from "@tanstack/react-table";
@@ -9,7 +9,7 @@ interface Owner {
     name: string;
     surname: string;
     email: string;
-    inventories: any | null;
+    inventories: unknown | null;
 }
 
 
@@ -18,6 +18,13 @@ interface Owner {
 export default  function OwnerPage() {
     const res=useFetch<Owner[]>("/HomeInventory/Owner")
     const router = useRouter();
+
+    const owners = useMemo(() => {
+        if(!res.data){
+            return []
+        }
+        return res.data
+    },[res.data])
 
 
     const columnHelper = createColumnHelper<Owner>();
@@ -59,7 +66,7 @@ export default  function OwnerPage() {
     ]
 
 
-    const reactTable= useTansactReactTable(columns,res.data || [])
+    const reactTable= useTansactReactTable(columns, owners)
 
 
     if(res.loading){
@@ -70,7 +77,6 @@ export default  function OwnerPage() {
         return <div>Error: {res.error}</div>;
     }
 
-    const owners = res.data;
 
 
     if(!owners){
