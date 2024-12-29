@@ -3,22 +3,27 @@
 import React from 'react';
 import {useFetch} from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
+import {ColumnDef, createColumnHelper, flexRender, getCoreRowModel, useReactTable} from '@tanstack/react-table';
+
+interface Inventory {
+    id: number;
+    name: string;
+    description: string;
+    location: string | null;
+    possibleValue: { id: number };
+    ownerId: number | null;
+    //owner: any; // Owner nesnesi gelirse burayı güncelleyebilirsiniz.
+}
+
+interface MonetoryValue {
+    value: number;
+    currency: string;
+    id: number;
+}
 
 interface InventoryResponse {
-    inventory: {
-        id: number;
-        name: string;
-        description: string;
-        location: string | null;
-        possibleValue: { id: number };
-        ownerId: number | null;
-        //owner: any; // Owner nesnesi gelirse burayı güncelleyebilirsiniz.
-    };
-    monetaryValue: {
-        value: number;
-        currency: string;
-        id: number;
-    };
+    inventory: Inventory
+    monetaryValue: MonetoryValue
     //otherValue: any; // OtherValue yapısına göre tipini güncelleyebilirsiniz
 }
 
@@ -30,7 +35,6 @@ export default  function HomeInventoryPage() {
     const router = useRouter();
 
     const handleViewDetails = (id: number) => {
-        // Burada ayrıntı sayfasına yönlendirme yapıyoruz.
         if(router!==null){
             router.push(`/HomeInventory/Inventory/${id}`);
         }
@@ -38,6 +42,57 @@ export default  function HomeInventoryPage() {
             console.log("router is null");
         }
     };
+
+    const columnHelper = createColumnHelper<InventoryResponse>();
+
+
+
+
+    const columns: ColumnDef<InventoryResponse>[] = [
+        columnHelper.accessor('inventory.id', {
+            header: 'ID',
+            cell: (info) => info.getValue(),
+        }) as ColumnDef<InventoryResponse>
+        ,
+        columnHelper.accessor('inventory.name', {
+            header: 'Name',
+            cell: (info) => info.getValue(),
+        }) as ColumnDef<InventoryResponse>
+        ,
+        columnHelper.accessor("inventory.description",
+            {
+                header: 'Location',
+                cell: (info) => <span className="text-gray-600">{String(info.getValue())}</span>,
+            }
+            ) as ColumnDef<InventoryResponse>,
+
+
+        columnHelper.display({
+            id: 'details',
+            header:()=> 'Details',
+            cell: (info) => {
+                const inventory = info.row.original.inventory;
+                return (
+                    <button
+                        onClick={() => handleViewDetails(inventory?.id)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+                    >
+                        View Details
+                    </button>
+                );
+            },
+        }) as ColumnDef<InventoryResponse>,
+    ];
+
+    const table = useReactTable({
+        data:data || [],
+        columns:columns,
+        getCoreRowModel: getCoreRowModel(),
+    })
+
+    console.log(table.getRowModel())
+
+
 
     if(loading){
         return <div>Loading...</div>;
@@ -69,20 +124,37 @@ export default  function HomeInventoryPage() {
                     Add New Inventory
                 </button>
             </div>
-            <ul className="space-y-2">
-                {data.map((item) => (
-                    <li key={item.inventory.id} className="p-4 bg-white rounded shadow">
-                        <div className="font-semibold">{item.inventory.name}</div>
-                        <div className="text-gray-600">ID: {item.inventory.location}</div>
-                        <button
-                            onClick={() => handleViewDetails(item.inventory.id)}
-                            className="mt-2 inline-block bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
-                        >
-                            View Details
-                        </button>
-                    </li>
+            <table className="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                            <th
+                                key={header.id}
+                                className="border-b border-gray-300 p-2 text-left"
+                            >
+                                {header.isPlaceholder
+                                    ? null
+
+
+                                    : header.column.id}
+                            </th>
+                        ))}
+                    </tr>
                 ))}
-            </ul>
+                </thead>
+                <tbody>
+                {table.getRowModel().rows.map(row => (
+                    <tr key={row.id}>
+                        {row.getVisibleCells().map(cell => (
+                            <td key={cell.id}>
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+                </tbody>
+            </table>
         </div>
     );
 }
